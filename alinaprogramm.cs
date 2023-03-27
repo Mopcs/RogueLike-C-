@@ -4,28 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace labirint
+namespace zodiak_labirint
 {
     class Program
     {
-        private const int GameWidth = 100; //ширина
-        private const int GameHeight = 50; //высота
+        private const int GameWidth = 200; //ширина
+        private const int GameHeight = 80; //высота
 
-        private const int LabWidth = 32; //ширина карты лабиринта
-        private const int LabHeight = 32; //высота карты лабиринта
+        private const int LabWidth = 20; //ширина карты лабиринта
+        private const int LabHeight = 20; //высота карты лабиринта
 
         private const double Fov = Math.PI / 3; //угол
         private const double Depth = 16; //глубина, до которой может дойти игрок
 
-        private static string _lab = ""; //сам лабиринт
-
-        private static double _PlayerX = 5; //координаты игрока по x
-        private static double _PlayerY = 5; //координаты игрока по y
-        private static double _PlayerC = 0; //угол обзора игрока
+        private static double _PlayerX = 1; //координаты игрока по x
+        private static double _PlayerY = 1; //координаты игрока по y
+        private static double _PlayerC = 7; //угол обзора игрока
 
 
         private static readonly char[] Screen = new char[GameHeight * GameWidth]; //содание игровой консоли, экран
 
+        private static readonly StringBuilder Map = new StringBuilder(); //карта
 
         static void Main(string[] args)
         {
@@ -34,32 +33,7 @@ namespace labirint
 
             Console.CursorVisible = false; //выключение курсора
 
-            _lab += "################################";
-            _lab += "#.....................#........#";
-            _lab += "#.....................#........#";
-            _lab += "#.....................#........#";
-            _lab += "#.....................#........#";
-            _lab += "#..........###........#........#";
-            _lab += "#.....................#####....#";
-            _lab += "#..............................#";
-            _lab += "#..............................#";
-            _lab += "#..............................#";
-            _lab += "#..............................#";
-            _lab += "#..............................#";
-            _lab += "#.............#####............#";
-            _lab += "#.............#####............#";
-            _lab += "#.............#####............#";
-            _lab += "#..............................#";
-            _lab += "#..............................#";
-            _lab += "#..............................#";
-            _lab += "##########.....................#";
-            _lab += "#..............................#";
-            _lab += "#.....................##########";
-            _lab += "#.....................##########";
-            _lab += "#..............................#";
-            _lab += "#..............................#";
-            _lab += "#..............................#";
-            _lab += "################################";
+            InitMap(); //иницилизация карты
 
             DateTime DateTimeFrom = DateTime.Now; //считаем время каждой операции
 
@@ -73,7 +47,7 @@ namespace labirint
                 {
                     var ConsoleKey = Console.ReadKey(true).Key; //считываем с консоли нажатие на кнопку
 
-                    switch(ConsoleKey)
+                    switch (ConsoleKey)
                     {
                         case ConsoleKey.A:
                             _PlayerC += 8 * ElapsedTime; //изменяем обзор с помощью поворота вправо
@@ -87,9 +61,9 @@ namespace labirint
                             _PlayerX += 12 * Math.Sin(_PlayerC) * ElapsedTime; //идем вперед
                             _PlayerY += 12 * Math.Cos(_PlayerC) * ElapsedTime;
 
-                            if (_lab[(int) _PlayerY * LabWidth + (int) _PlayerX] == '#') //проверка на стену, нельзя пройти
+                            if (Map[(int)_PlayerY * LabWidth + (int)_PlayerX] == '#') //проверка на стену, нельзя пройти
                             {
-                                _PlayerX -= 12 * Math.Sin(_PlayerC) * ElapsedTime; 
+                                _PlayerX -= 12 * Math.Sin(_PlayerC) * ElapsedTime;
                                 _PlayerY -= 12 * Math.Cos(_PlayerC) * ElapsedTime;
                             }
                             break;
@@ -98,7 +72,7 @@ namespace labirint
                             _PlayerX -= 12 * Math.Sin(_PlayerC) * ElapsedTime; //идем назад
                             _PlayerY -= 12 * Math.Cos(_PlayerC) * ElapsedTime;
 
-                            if (_lab[(int)_PlayerY * LabWidth + (int)_PlayerX] == '#') //проверка на стену, нельзя пройти
+                            if (Map[(int)_PlayerY * LabWidth + (int)_PlayerX] == '#') //проверка на стену, нельзя пройти
                             {
                                 _PlayerX += 12 * Math.Sin(_PlayerC) * ElapsedTime;
                                 _PlayerY += 12 * Math.Cos(_PlayerC) * ElapsedTime;
@@ -116,13 +90,14 @@ namespace labirint
 
                     double DistanceWall = 0; //расстояние до стены
                     bool HitWall = false; //попали в стену или нет
+                    bool IsBound = false; //грань блока или нет
 
                     while (!HitWall && DistanceWall < Depth)
                     {
                         DistanceWall += 0.1;
 
-                        int TestX = (int) (_PlayerX + RayX * DistanceWall); //узнаем координаты по x
-                        int TestY = (int) (_PlayerY + RayY * DistanceWall); //узнаем координаты по y
+                        int TestX = (int)(_PlayerX + RayX * DistanceWall); //узнаем координаты по x
+                        int TestY = (int)(_PlayerY + RayY * DistanceWall); //узнаем координаты по y
 
                         if (TestX < 0 || TestX >= Depth + _PlayerX || TestY < 0 || TestY >= Depth + _PlayerY) //проверка на стену
                         {
@@ -131,23 +106,51 @@ namespace labirint
                         }
                         else
                         {
-                            char TestCell = _lab[TestY * LabWidth + TestX];
+                            char TestCell = Map[TestY * LabWidth + TestX];
 
                             if (TestCell == '#')
                             {
                                 HitWall = true;
+
+                                var BoundsVectorList = new List<(double module, double cos)>();
+
+                                for (int tx = 0; tx < 2; tx++)
+                                {
+                                    for (int ty = 0; ty < 2; ty++)
+                                    {
+                                        double vx = TestX + tx - _PlayerX;
+                                        double vy = TestY + ty - _PlayerY;
+
+                                        double VectorModule = Math.Sqrt(vx * vx + vy * vy);
+                                        double CosCorner = (RayX * vx + RayY * vy) / VectorModule;
+
+                                        BoundsVectorList.Add((VectorModule, CosCorner));
+                                    }
+                                }
+
+                                BoundsVectorList = BoundsVectorList.OrderBy(v => v.module).ToList();
+
+                                double BoundCorner = 0.03 / DistanceWall;
+
+                                if (Math.Acos(BoundsVectorList[0].cos) < BoundCorner || Math.Acos(BoundsVectorList[1].cos) < BoundCorner)
+                                {
+                                    IsBound = true;
+                                }
                             }
                         }
                     }
 
                     // рисовка лабиринта(обзора)
-                    int GameCeiling = (int) (GameHeight / 2d - GameHeight * Fov / DistanceWall); //потолок
+                    int GameCeiling = (int)(GameHeight / 2d - GameHeight * Fov / DistanceWall); //потолок
                     int GameFloor = GameHeight - GameCeiling; //пол
 
                     //покраска стен в зависимости от близости к игроку
                     char WallShade;
-
-                    if (DistanceWall < Depth / 4d) 
+                    if (IsBound)
+                    {
+                        WallShade = '|';
+                    }
+                    else if (DistanceWall < Depth / 4d)
                     {
                         WallShade = '\u2588';
                     }
@@ -187,7 +190,7 @@ namespace labirint
                             {
                                 FloorShade = '#';
                             }
-                            else if(b < 0.5)
+                            else if (b < 0.5)
                             {
                                 FloorShade = 'x';
                             }
@@ -207,10 +210,46 @@ namespace labirint
                         }
                     }
                 }
+                char[] stats = $"X: {_PlayerX}, Y: {_PlayerY}, FPS: {(int) (1 / ElapsedTime)}".ToCharArray();
+                stats.CopyTo( Screen, 0 );
 
+                for (int x = 0; x < LabWidth; x++)
+                {
+                    for (int y = 0; y < LabHeight; y++)
+                    {
+                        Screen[(y + 1) * GameWidth + x] = Map[y * LabWidth + x];
+                    }
+                }
+
+                Screen[(int)(_PlayerY + 1) * GameWidth + (int)(_PlayerX)] = '@';
                 Console.SetCursorPosition(0, 0);
                 Console.Write(Screen);
             }
+        }
+
+        private static void InitMap()
+        {
+            Map.Clear();
+            Map.Append("####################");
+            Map.Append("#..................#");
+            Map.Append("#....#.............#");
+            Map.Append("#..................#");
+            Map.Append("#..................#");
+            Map.Append("#.........###......#");
+            Map.Append("#.........###......#");
+            Map.Append("#..................#");
+            Map.Append("#..................#");
+            Map.Append("#..........#.......#");
+            Map.Append("#..........#.......#");
+            Map.Append("#..........#.......#");
+            Map.Append("#..........#########");
+            Map.Append("#..................#");
+            Map.Append("#....##............#");
+            Map.Append("#....###...........#");
+            Map.Append("#..................#");
+            Map.Append("#............#.....#");
+            Map.Append("#..................#");
+            Map.Append("####################");
         }
     }
 }
