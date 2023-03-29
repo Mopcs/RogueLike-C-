@@ -41,6 +41,7 @@ namespace Game {
                 case 2:
                     ExitGame();
                     break;
+    
             }
         }
         private void ExitGame() {
@@ -103,6 +104,24 @@ namespace Game {
                     break;
             }
             ExitGame();
+        }
+        private void PlayMenu() { //метод для паузы
+            string tip = "Пауза\n";
+            string[] options = {"Вернуться в главное меню", "О нас", "Выход"};
+            Menu PlayMenu = new Menu(tip, options);
+            int selectedIndex = PlayMenu.Run();
+            switch (selectedIndex)
+            {
+                case 0:
+                    RunMenu();
+                    break;
+                case 1:
+                    DisplayAboutInfo();
+                    break;
+                case 2:
+                    ExitGame();
+                    break;
+            }
         }
     }
 }
