@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
 
 namespace zodiak_labirint
 {
@@ -16,7 +16,7 @@ namespace zodiak_labirint
 
         public const double Fov = Math.PI / 3; //угол
         public const double Depth = 16; //глубина, до которой может дойти игрок
-        public const double ElapsedTime = 0.03; //каждый раз подсчет времени операции
+        public const double ElapsedTime = 0.06; //каждый раз подсчет времени операции
 
         public static double _PlayerX = 1; //координаты игрока по x
         public static double _PlayerY = 1; //координаты игрока по y
@@ -32,7 +32,7 @@ namespace zodiak_labirint
             Map.Append("####################");
             Map.Append("#..................#");
             Map.Append("#....#.............#");
-            Map.Append("#..................#");
+            Map.Append("#.........O........#");
             Map.Append("#..................#");
             Map.Append("#.........###......#");
             Map.Append("#.........###......#");
@@ -133,6 +133,7 @@ namespace zodiak_labirint
                 double DistanceWall = 0; //расстояние до стены
                 bool HitWall = false; //попали в стену или нет
                 bool IsBound = false; //грань блока или нет
+                bool IsMob = false;
 
                 while (!HitWall && DistanceWall < Maze.Depth)
                 {
@@ -163,7 +164,7 @@ namespace zodiak_labirint
                                     double vx = TestX + tx - Maze._PlayerX;
                                     double vy = TestY + ty - Maze._PlayerY;
 
-                                    double VectorModule = Math.Sqrt(vx * vx + vy * vy);
+                                    double VectorModule = Math.Sqrt(vx * vx + vy * vy); //находим модуль вектора для грани
                                     double CosCorner = (RayX * vx + RayY * vy) / VectorModule;
 
                                     BoundsVectorList.Add((VectorModule, CosCorner));
@@ -178,6 +179,11 @@ namespace zodiak_labirint
                             {
                                 IsBound = true;
                             }
+                        }
+                        else if (TestCell == 'O')
+                        {
+                            IsMob = true;
+                            HitWall = true;
                         }
                     }
                 }
@@ -194,7 +200,7 @@ namespace zodiak_labirint
                 }
                 else if (DistanceWall < Maze.Depth / 4d)
                 {
-                    WallShade = '\u2588';
+                    WallShade = '\u2593';
                 }
                 else if (DistanceWall < Maze.Depth / 3d)
                 {
@@ -221,7 +227,15 @@ namespace zodiak_labirint
                     }
                     else if (y > GameCeiling && y <= GameFloor)
                     {
-                        Maze.Screen[y * Maze.GameWidth + x] = WallShade; //рисуем стены
+                        if (IsMob == true)
+                        {
+                            char MobShade = '\u2580';
+                            Maze.Screen[y * Maze.GameWidth + x] = MobShade; //рисуем моба
+                        }
+                        else
+                        {
+                            Maze.Screen[y * Maze.GameWidth + x] = WallShade; //рисуем стены
+                        }
                     }
                     else
                     {
@@ -283,13 +297,9 @@ namespace zodiak_labirint
     }
     class Program
     {
-
         static void Main(string[] args)
         {
-
-
             Zodiak.Game();
-            
         }
     }
 }
