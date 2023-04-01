@@ -3,9 +3,116 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
+using System.IO.MemoryMappedFiles;
 
 namespace zodiak_labirint
 {
+    public class MapGeneration //генерация 2D карты
+    {
+        public static char[,] MapArray = new char[20, 20];
+
+        public static char[,] Filing()
+        {
+            for (int i = 0; i < 20; i++) //заполнение решетками
+            {
+                for (int j = 0; j < 20; j++)
+                {
+                    MapArray[i, j] = '#';
+                }
+            }
+            return MapArray;
+        }
+        public static char[,] Floor()
+        {
+            Random ran = new Random();
+            int k;
+            int n = 0;
+            while (n != 2)
+            {
+                for (int i = 0; i < 20; i++) //прокладывание пути
+                {
+                    for (int j = 0; j < 20; j++)
+                    {
+                        if (i == 0)
+                        {
+                            MapArray[i, j] = '#';
+                        }
+                        else if (j == 0)
+                        {
+                            MapArray[i, j] = '#';
+                        }
+                        else if (i == 19)
+                        {
+                            MapArray[i, j] = '#';
+                        }
+                        else if (j == 19)
+                        {
+                            MapArray[i, j] = '#';
+                        }
+                        else
+                        {
+                            k = ran.Next(1, 5);
+                            switch (k)
+                            {
+                                case 1:
+                                    MapArray[i, j] = '.';
+                                    MapArray[i + 1, j] = '.';
+                                    i++;
+                                    break;
+                                case 2:
+                                    MapArray[i, j] = '.';
+                                    MapArray[i, j + 1] = '.';
+                                    j++;
+                                    break;
+                                case 3:
+                                    MapArray[i, j] = '.';
+                                    MapArray[i - 1, j] = '.';
+                                    i--;
+                                    break;
+                                case 4:
+                                    MapArray[i, j] = '.';
+                                    MapArray[i, j - 1] = '.';
+                                    j--;
+                                    break;
+                            }
+                        }
+                    }
+                }
+                n++;
+            }
+            for (int i = 0; i < 20; i++) //заполнение
+            {
+                for (int j = 0; j < 20; j++)
+                {
+                    if (i == 0)
+                    {
+                        MapArray[i, j] = '#';
+                    }
+                    else if (j == 0)
+                    {
+                        MapArray[i, j] = '#';
+                    }
+                    else if (i == 19)
+                    {
+                        MapArray[i, j] = '#';
+                    }
+                    else if (j == 19)
+                    {
+                        MapArray[i, j] = '#';
+                    }
+                    else if (i == 1 && j == 2)
+                    {
+                        MapArray[i, j] = 'X';
+                    }
+                    else if (i == 2 && j == 4)
+                    {
+                        MapArray[i, j] = 'O';
+                    }
+                }
+            }
+            return MapArray;
+        }
+    }
     public class Maze
     {
         public const int GameWidth = 200; //ширина
@@ -29,26 +136,15 @@ namespace zodiak_labirint
         public static void Init()
         {
             Map.Clear();
-            Map.Append("####################");
-            Map.Append("#..................#");
-            Map.Append("#....#.............#");
-            Map.Append("#.........O........#");
-            Map.Append("#..................#");
-            Map.Append("#.........###......#");
-            Map.Append("#.........###......#");
-            Map.Append("#..................#");
-            Map.Append("#..................#");
-            Map.Append("#..........#.......#");
-            Map.Append("#..........#.......#");
-            Map.Append("#..........#.......#");
-            Map.Append("#..........#########");
-            Map.Append("#..................#");
-            Map.Append("#....##............#");
-            Map.Append("#....###...........#");
-            Map.Append("#..................#");
-            Map.Append("#............#.....#");
-            Map.Append("#..................#");
-            Map.Append("####################");
+            MapGeneration.Filing();
+            MapGeneration.Floor();
+            for (int i = 0; i < 20; i++)
+            {
+                for (int j = 0; j < 20; j++)
+                {
+                    Map.Append(MapGeneration.MapArray[i, j]);
+                }
+            }
         }
 
         //состояние
@@ -230,6 +326,7 @@ namespace zodiak_labirint
                         if (IsMob == true)
                         {
                             char MobShade = '\u2580';
+                            string Mob = MobShade.ToString();
                             Maze.Screen[y * Maze.GameWidth + x] = MobShade; //рисуем моба
                         }
                         else
@@ -295,6 +392,7 @@ namespace zodiak_labirint
             }
         }
     }
+
     class Program
     {
         static void Main(string[] args)
