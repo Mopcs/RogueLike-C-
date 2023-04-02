@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Drawing;
-using System.IO.MemoryMappedFiles;
+
 
 namespace zodiak_labirint
 {
@@ -27,11 +26,11 @@ namespace zodiak_labirint
             Random ran = new Random();
             int k;
             int n = 0;
-            while (n != 2)
+            while (n != 10)
             {
-                for (int i = 0; i < 20; i++) //прокладывание пути
+                for (int i = 1; i < 19; i++) //прокладывание пути
                 {
-                    for (int j = 0; j < 20; j++)
+                    for (int j = 1; j < 19; j++)
                     {
                         if (i == 0)
                         {
@@ -52,64 +51,57 @@ namespace zodiak_labirint
                         else
                         {
                             k = ran.Next(1, 5);
-                            switch (k)
+                            Console.WriteLine(k);
+                            if (i != 0 || j != 0 || i != 19 || j != 19) 
                             {
-                                case 1:
-                                    MapArray[i, j] = '.';
-                                    MapArray[i + 1, j] = '.';
-                                    i++;
-                                    break;
-                                case 2:
-                                    MapArray[i, j] = '.';
-                                    MapArray[i, j + 1] = '.';
-                                    j++;
-                                    break;
-                                case 3:
-                                    MapArray[i, j] = '.';
-                                    MapArray[i - 1, j] = '.';
-                                    i--;
-                                    break;
-                                case 4:
-                                    MapArray[i, j] = '.';
-                                    MapArray[i, j - 1] = '.';
-                                    j--;
-                                    break;
+                                switch (k)
+                                {
+                                    case 1:
+                                        MapArray[i, j] = '.';
+                                        if(i + 1 != 19) 
+                                        {
+                                            MapArray[i + 1, j] = '.';
+                                            i++;   
+                                        }
+                                            
+                                        break;
+                                    case 2:
+                                        MapArray[i, j] = '.';
+                                        if(j + 1 != 19)
+                                        { 
+                                            MapArray[i, j + 1] = '.';
+                                            j++;
+                                        }
+                                            
+                                        break;
+                                    case 3:
+                                        MapArray[i, j] = '.';
+                                        if (i - 1 != 0)
+                                        {
+                                            MapArray[i - 1, j] = '.';
+                                            i++;
+                                        }
+
+                                        break;
+                                    case 4:
+                                        MapArray[i, j] = '.';
+                                        if (j - 1 != 0)
+                                        {
+                                            MapArray[i, j - 1] = '.';
+                                            j++;
+                                        }
+
+                                        break;
+                                }
                             }
+
+                            
                         }
                     }
                 }
                 n++;
             }
-            for (int i = 0; i < 20; i++) //заполнение
-            {
-                for (int j = 0; j < 20; j++)
-                {
-                    if (i == 0)
-                    {
-                        MapArray[i, j] = '#';
-                    }
-                    else if (j == 0)
-                    {
-                        MapArray[i, j] = '#';
-                    }
-                    else if (i == 19)
-                    {
-                        MapArray[i, j] = '#';
-                    }
-                    else if (j == 19)
-                    {
-                        MapArray[i, j] = '#';
-                    }
-                    else if (i == 1 && j == 2)
-                    {
-                        MapArray[i, j] = 'X';
-                    }
-                    else if (i == 2 && j == 4)
-                    {
-                        MapArray[i, j] = 'O';
-                    }
-                }
-            }
+
             return MapArray;
         }
     }
@@ -210,6 +202,10 @@ namespace zodiak_labirint
                             Maze._PlayerY += 12 * Math.Cos(Maze._PlayerC) * Maze.ElapsedTime;
                         }
                         break;
+                    case ConsoleKey.R:
+                        Zodiak.Game();
+                        break;
+
                 }
             }
         }
@@ -362,33 +358,6 @@ namespace zodiak_labirint
                         Maze.Screen[y * Maze.GameWidth + x] = FloorShade; //рисуем пол
                     }
                 }
-            }
-        }
-    }
-
-    public class Zodiak
-    {
-        //игра
-        public static void Game()
-        {
-            Console.SetWindowSize(Maze.GameWidth, Maze.GameHeight); //размер окна по заданным параматрам
-            Console.SetBufferSize(Maze.GameWidth, Maze.GameHeight); //размер буфера по заданным параметрам
-
-            Console.CursorVisible = false; //выключение курсора
-
-            Maze.Init(); //иницилизация карты
-
-            while (true)
-            {
-                Player.Steps(); //шаги игрока
-
-                Render3D.Draw(); //отрисовка лабиринта и его составляющих
-
-                Maze.Draw2D(); //отрисовка карты
-                Maze.Stats(); //состояние
-
-                Console.SetCursorPosition(0, 0); 
-                Console.Write(Maze.Screen); 
             }
         }
     }
