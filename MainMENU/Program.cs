@@ -14,9 +14,10 @@ using System;
 namespace Game {
     class Program {
         static void Main(string[] args) {
+            // Console.SetCursorPosition(1, 2);
             Game myGame = new Game();
             myGame.Start();
-
+            
             
         }
     }

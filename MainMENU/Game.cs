@@ -41,6 +41,7 @@ namespace Game {
                 case 2:
                     ExitGame();
                     break;
+                
     
             }
         }
@@ -107,7 +108,7 @@ namespace Game {
         }
         private void PlayMenu() { //метод для паузы
             string tip = "Пауза\n";
-            string[] options = {"Вернуться в главное меню", "О нас", "Выход"};
+            string[] options = {"Вернуться в главное меню", "Вернуться в Игру", "О нас", "Выход из Игры"};
             Menu PlayMenu = new Menu(tip, options);
             int selectedIndex = PlayMenu.Run();
             switch (selectedIndex)
@@ -116,12 +117,51 @@ namespace Game {
                     RunMenu();
                     break;
                 case 1:
+                    return;
+                case 2:
                     DisplayAboutInfo();
                     break;
-                case 2:
+                case 3:
                     ExitGame();
                     break;
             }
+        }
+        private void Dialogue() {
+            string tip = "Давай поболтаем?";
+            string[] options = {"Конечно", "Пшл куда подальше"};
+            Menu Dialogue = new Menu(tip, options);
+            int selectedIndex = Dialogue.Run();
+            switch (selectedIndex)
+            {
+                case 0:
+                    break;
+                case 1:
+                    break;
+            }
+        }
+        private void ChoiceOfWeapons() {
+            string tip = "Выбери оружие из списка";
+            string[] options = {"hvnbvghgxfcnnxghfgfxcghgcvbvcghugfcxdzsaqwsedrftyujkbvcxzsawedrtyuioklnbvcxdsrftgh"};
+            Menu ChoiceOfWeapons = new Menu(tip, options);
+            int selectedIndex = ChoiceOfWeapons.Run();
+            switch (selectedIndex)
+            {
+                case 0:
+                    break;
+            }
+            // вставить методы оружий
+        }
+        private void Shop() {
+            string tip = "МАГАЗИН, приветствуем вас";
+            string[] options = {"Купить"};
+            Menu Shop = new Menu(tip, options);
+            int selectedIndex = Shop.Run();
+            switch (selectedIndex)
+            {
+                case 0:
+                    break;
+            }
+            //Реализовать магазин
         }
     }
 }
