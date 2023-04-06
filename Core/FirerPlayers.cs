@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ConsoleApp8.Core
+namespace Roguelikej.Core
 {
-    internal class FirePlayer : Character
+    public class FirePlayer : Character
     {
-        public FirePlayer()
+        public  FirePlayer()
         {
             Name = "nameHero";
             Symbol = "🔥";
             Attack = 0;
             Health = 100;
             MaxHealh = 100;
-            Armor = 2;
+            Armor = 2;  
             Key = 0;
             Gold = 0;
 

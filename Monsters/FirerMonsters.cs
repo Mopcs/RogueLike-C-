@@ -16,6 +16,7 @@ namespace Roguelikej.Monsters
             Key = 0;
             Random rnd = new Random();
             Gold = rnd.Next(1, 10);
+            Awake = false;
         }
 	}
 }

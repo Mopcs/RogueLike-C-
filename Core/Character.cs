@@ -1,15 +1,17 @@
-﻿using ConsoleApp8.Interfaces;
-using RLNET;
-using RogueSharp;
-using System;
+﻿using System;
+using Roguelikej.Interfaces;
 
-namespace ConsoleApp8.Core
+
+namespace Roguelikej.Core
 {
-    internal class Character
-    {
+    public class Character : IInterfaceDrawer, IInterfaces
+    { 
         public string Symbol { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
+        public bool Awake { get; set; }
+
+
 
         private int _attack;
         private string _name;
@@ -116,6 +118,10 @@ namespace ConsoleApp8.Core
             {
                 _name = value;
             }
+        }
+
+        public void Draw()
+        {
         }
 
         public int MaxHealth { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

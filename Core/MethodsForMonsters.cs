@@ -3,56 +3,146 @@ using Roguelikej.Monsters;
 
 namespace Roguelikej.Core
 {
-    
+
     public class MethodsForMonsters
     {
-        private readonly List<Monster> _monsters;
+        private readonly List<EarthMonsters> _monsters;
         public MethodsForMonsters()
         {
             // инициализируем все списки используем list вместо массива у нас 10 монстров 
-            _monsters = new List<Monster>(10);
-            
+            _monsters = new List<EarthMonsters>(10);
+
         }
-        public void AddMonster(Monster monster)
+        public void AddMonster(EarthMonsters monster)
         {
             _monsters.Add(monster);
-           
+
         }
-        public void AddMonster_rand( )//Maze.Map туда кинуть 
+        public char[,] AddMonster_rand()//Maze.Map туда кинуть 
         {
-            int MosterPlace=0;
-            if (MosterPlace != 0) {
+            Monster[] monster = new Monster[10]; // осздаем массив для монстров
+
+            bool MosterPlace = false; // проверяем если монстры
+
+            if (!MosterPlace) { // если монстров нет
+
                 int MX;
                 int MY;
 
-                Random rnd = new Random();
-                var numberOfMonsters = rnd.Next(1,10);
-                for (int i = 0; i < numberOfMonsters; i++)
+                for (int i = 0; i < monster.Length; i++)
                 {
                     do
                     {
                         Random rnd1 = new Random();
-                        MX = rnd1.Next(20, 190);
-                        MY = rnd1.Next(20, 70);
+                        MX = rnd1.Next(1, 19);
+                        MY = rnd1.Next(1, 19);
                     }
                     while (Maze.Map[MX][MY] != ' ');
 
-                    var monster = WaterMonsters.Create(1);
-                    monster.X = MX;
-                    monster.Y = MY;
-                    _map.AddMonster(monster);
+                    monster[i].X = MX;
+                    monster[i].Y = MY;
 
-                    _monsters[i].X = MX;
-                    _monsters[i].Y = MY;
-                   
-                    Maze.Map[_monsters[i].X][_monsters[i].Y] = _monsters.Symbol;// gjxtve yt dblbn
+                    Maze.Map[monster[i].X][monster[i].Y] = monster.Symbol;// gjxtve yt dblbn
 
                 }
-                MosterPlace = 1; 
+                
+                MosterPlace = true;
+
             }
+            MonsterMovement(monster );
 
+            return Maze.Map;
         }
+        public static void MonsterMovement(Monster[] monster, FirePlayer player) // движение монстров 
+        {
+            int DisY, DisX;
 
+            for (int i = 0; i < monster.Length; i++)
+            {
+                DisY = Math.Abs(monster[i].Y - player.Y);
+                DisX = Math.Abs(monster[i].X - player.X);
+
+                if (DisY < 5 && DisX < 5)
+                    monster[i].Awake = true;
+
+                if (monster[i].Awake == false)
+                    continue;
+
+                int DirY = monster[i].Y;
+                int DirX = monster[i].X;
+
+                // движение в право и влево
+                if (DisY > DisX)
+                {
+                    if (DirY > player.Y)
+                        DirY -= 1;
+                    else
+                        DirY += 1;
+
+                }
+                else
+                {
+                    if (DirX > player.X)
+                        DirX -= 1;
+
+                    else
+                        DirX += 1;
+                }
+                // дживжение по диагонали
+                if (Maze.Map[DirX][DirY] == '#')
+                {
+                    DirY = monster[i].Y;
+                    DirX = monster[i].X;
+
+                    if (DirY > player.Y)
+                        DirY -= 1;
+                    else
+                        DirY =+1;
+
+                    if (DirX > player.X)
+                        DirX -=1;
+                    else
+                        DirX +=1;
+                }
+
+                // если все еще не удается к догонке игрока (инвертивное движение)
+                if (Maze.Map[DirX][DirY] == '#')
+                {
+                    DirY = monster[i].Y;
+                    DirX = monster[i].X;
+
+                    if (DisY > DisX)
+                    {
+                        if (DirX > player.X)
+                            DirX -= 1;
+                        else
+                            DirX += 1;
+                    }
+                    else
+                    {
+                        if (DirY > player.Y)
+                            DirY -= 1;
+                        else
+                            DirY = +1;
+                    }
+                  
+                }
+
+                if (Maze.Map[DirX][DirY] == ' ')
+                {
+                    Maze.Map[monster[i].X][monster[i].Y] = ' ';
+
+                    monster[i].Y = DirY;
+                    monster[i].X = DirX;
+
+                    Maze.Map[monster[i].X][monster[i].Y] = monster.Symbol;
+                }
+
+
+
+
+            }
+        }
 
     }
 }

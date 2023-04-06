@@ -1,11 +1,9 @@
 ﻿using System;
 namespace Roguelikej.Core
 {
-	public class Monster
+	public class Monster : Character
 	{
-		public Monster()
-		{
-		}
-	}
+
+    }
 }
 
