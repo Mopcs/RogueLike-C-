@@ -14,11 +14,14 @@ using System;
 namespace Game {
     class Program {
         static void Main(string[] args) {
-            // Console.SetCursorPosition(1, 2);
+            //Sound();
+
             Game myGame = new Game();
-            myGame.Start();
             
+            myGame.Start();
+
             
         }
     }
 }
+

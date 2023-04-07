@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using static System.Console;
+using System.Media;
 
 namespace Game {
     class Game {
@@ -53,14 +54,14 @@ namespace Game {
         
         private void DisplayAboutInfo() {
             WriteLine("\nЗдесь следует прописать информацию о создателях игры и т.п.\n");
-            WriteLine("Нажмите любую клавишу чтобы вернуться в меню");
+            WriteLine("Нажмите любую клавишу, чтобы вернуться в меню");
             ReadKey(true);
             RunMenu();
         }
 
         private void RunFirstChoice() {
             WriteLine("\nВведи своё имя");
-            string nameHero = Console.ReadLine();
+            string? nameHero = ReadLine();
             string tip = "Выбери свой знак зодиака\n";
             string[] options = {"Овен", "Телец", "Близнецы", "Рак" , "Лев", "Дева", "Весы", "Скорпион", "Стрелец", "Козерог", "Водолей", "Рыбы"};
             Menu ZodiacMenu = new Menu(tip, options);
@@ -163,5 +164,20 @@ namespace Game {
             }
             //Реализовать магазин
         }
+
+        // private void Sound() {
+
+        //     if (OperatingSystem.IsWindows()) {
+        //         SoundPlayer sPlayer = new SoundPlayer("Marilyn-Mae-Deang-Game-_Instrumental_.wav");
+        //         sPlayer.Load();
+        //         sPlayer.PlayLooping();            
+        //     }
+        //     else
+        //     WriteLine("error");
+
+        //     WriteLine("Нажмите на любую клавишу, чтобы выключить музыку");
+        //     ReadKey(true);
+        //     Environment.Exit(0);
+        // }
     }
 }
