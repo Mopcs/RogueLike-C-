@@ -43,8 +43,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\AirPlayers.cs" />
+    <Compile Include="Core\Character.cs" />
+    <Compile Include="Core\EarthPlayer.cs" />
+    <Compile Include="Core\FirerPlayers.cs" />
+    <Compile Include="Core\MapGeneration.cs" />
+    <Compile Include="Core\Maze.cs" />
+    <Compile Include="Core\MethodsForMonsters.cs" />
+    <Compile Include="Core\Monster.cs" />
+    <Compile Include="Core\Player.cs" />
+    <Compile Include="Core\Render3D.cs" />
+    <Compile Include="Core\WaterPlayer.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Interface\IInterfaceDrawer.cs" />
+    <Compile Include="Interface\Interfaces.cs" />
     <Compile Include="Menu.cs" />
+    <Compile Include="Monsters\AirMonsters.cs" />
+    <Compile Include="Monsters\EarthMonsters.cs" />
+    <Compile Include="Monsters\FirerMonsters.cs" />
+    <Compile Include="Monsters\WaterMonsters.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Zodiak.cs" />

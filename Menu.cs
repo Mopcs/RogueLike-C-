@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using static System.Console;
 
-namespace Game_Zodiak
+namespace Game_Zodiac.Core
 {
     class Menu
     {
