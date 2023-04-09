@@ -9,33 +9,18 @@ namespace Game_Zodiac.Core
 {
     internal class AirPlayers: Character
     {
-        public AirPlayers()
+        public AirPlayers(string nameHero)
         {
-            Name = "nameHero";
+            Name = nameHero;
             Symbol = '☁';
-            Attack = 0;
             Health = 85;
-            MaxHealh = 85;
+            MaxHealth = 85;
             Armor = 4;
             Key = 0;
             Gold = 0;
             X = 1;
             Y = 1;
             C = 7;
-
-        }
-        public void DrawStats()
-        {
-            Console.SetCursorPosition(1, 1);
-            Console.WriteLine($"Name {Name}");
-            Console.SetCursorPosition(1, 3);
-            Console.WriteLine($"Health {Health}");
-            Console.SetCursorPosition(1, 5);
-            Console.WriteLine($"Attack {Attack}");
-            Console.SetCursorPosition(1, 7);
-            Console.WriteLine($"Armor {Armor}");
-            Console.SetCursorPosition(1, 9);
-            Console.WriteLine($"Gold {Gold}");
         }
     }
 }

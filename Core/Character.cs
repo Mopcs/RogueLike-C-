@@ -1,16 +1,22 @@
 ﻿using System;
-using Game_Zodiac.Interfaces;
-
+using Game_Zodiac._HealingItem;
+using Game_Zodiac._Weapon;
+using Game_Zodiac._Item;
 
 namespace Game_Zodiac.Core
 {
-    public class Character : IInterfaceDrawer, IInterfaces
-    { 
+    public class Character : IInterfaceDrawer, IInterfaces, IDamageable, IHealingeable
+    {
         public char Symbol { get; set; }
         public double X { get; set; }
         public double Y { get; set; }
         public double C { get; set; }
         public bool Awake { get; set; }
+        public Weapon CurrentWeapon { get; set; }
+        public HealingItem CurrentPotion { get; set; }
+
+        public Inventory inventory = new Inventory();
+
         public Character(double _X, double _Y, double _C)
         {
             X = _X;
@@ -22,17 +28,17 @@ namespace Game_Zodiac.Core
 
         }
 
-
-
-        private int _attack;
+        
         private string _name;
         private int _lineOfSight;
         private int _health;
-        private int _maxHealh;
+        private int _maxHealth;
         private int _key;
         private int _armor;
+        private int _additionArmor = 5;
         private int _gold;
-        
+
+        public int AdditionalArmor => _additionArmor;
 
         public int Gold
         {
@@ -40,11 +46,13 @@ namespace Game_Zodiac.Core
             {
                 return _gold;
             }
-            set 
+
+            set
             {
                 _gold = value;
             }
         }
+
 
         public int Armor
         {
@@ -55,18 +63,6 @@ namespace Game_Zodiac.Core
             set
             {
                 _armor = value;
-            }
-        }
-
-        public int Attack
-        {
-            get
-            {
-                return _attack;
-            }
-            set
-            {
-                _attack = value;
             }
         }
 
@@ -83,15 +79,15 @@ namespace Game_Zodiac.Core
             }
         }
 
-        public int MaxHealh
+        public int MaxHealth
         {
             get
             {
-                return _maxHealh;
+                return _maxHealth;
             }
             set
             {
-                _maxHealh = value;
+                _maxHealth = value;
             }
         }
 
@@ -118,7 +114,7 @@ namespace Game_Zodiac.Core
                 _lineOfSight = value;
             }
         }
-
+        
         public string Name
         {
             get
@@ -131,20 +127,66 @@ namespace Game_Zodiac.Core
             }
         }
 
-        public void Draw()
+
+        public void HitWithWeapon(Monster target)
         {
+            //Console.WriteLine(name + " hits " + target.name + " for " + CurrentWeapon.Damage + " damage!");
+            target.ApplyDamage(CurrentWeapon.Damage);
         }
 
-        public int MaxHealth { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        /*public void DrawPerson(Character person)
+        public void ApplyDamage(int damage, bool isDefence = false)
         {
-            Screen[(int)(Y + 1) * GameWidth + (int)(X)] = Symbol;
-            Console.SetCursorPosition(0, 0);
-            Console.Write(Screen);
-        }*/
+            int resultArmor = isDefence ? Armor + AdditionalArmor : Armor;
+            int actualDamage = Math.Max(damage - resultArmor, 0);
+            Health -= actualDamage;
+            if (Health < 0)
+            {
+                Health = 0;
+            }
+            //Console.WriteLine(name + " takes " + actualDamage + " damage!");
+        }
 
-        
+        public void TakeHealing(HealingItem item)
+        {
+            Health += item.healingAmount;
+            if (Health > MaxHealth)
+            {
+                Health = MaxHealth;
+            }
+            //Console.WriteLine(name + " heals for " + item.healingAmount + " points!");
+        }
 
+        public void TakeWeapon(Weapon weapon)
+        {
+            CurrentWeapon = weapon;
+        }
+
+        public void TakePotion(HealingItem potion)
+        {
+            CurrentPotion = potion;
+        }
+
+        public void BuyItem(Item item, Trader trader)
+        {
+            if (trader.traderInventory.items.Contains(item))
+            {
+                if (Gold >= trader.costOfItem)
+                {
+                    inventory.AddItem(item);
+                    trader.traderInventory.RemoveItem(item);
+                    Gold -= trader.costOfItem;
+                    Console.WriteLine(Name + " bought " + item.name + " from Trader for " + trader.costOfItem + " gold.");
+                }
+
+                else
+                {
+                    Console.WriteLine("You don't have enough gold to buy " + item.name + ".");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Trader doesn't have " + item.name + " for sale.");
+            }
+        }
     }
 }

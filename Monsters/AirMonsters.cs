@@ -10,17 +10,16 @@ namespace Game_Zodiac.Monsters
             Random rnd = new Random();
 
             Name = "Air";
-            Symbol = 'a'; //☁
+            Symbol = 'a';
             Attack = 30;
             Health = 90;
-            MaxHealh = 90;
+            MaxHealth = 90;
             Armor = rnd.Next(4, 10);
             Key = 0;
             Gold = rnd.Next(1, 10);
             Awake = false;
             X = 2;
             Y = 3;
-
         }
 	}
 }

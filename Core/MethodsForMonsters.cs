@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
-using System.Text;
-using Game_Zodiac.Monsters;
 
 namespace Game_Zodiac.Core
 {

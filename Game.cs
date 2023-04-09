@@ -171,7 +171,7 @@ namespace Game_Zodiac.Core
             switch (player_class)
             {
                 case "water":
-                    WaterPlayer Wplayer = new WaterPlayer();
+                    WaterPlayer Wplayer = new WaterPlayer(nameHero);
                     
                     AirMonsters AWmonster = new AirMonsters();
                     EarthMonsters EWmonster = new EarthMonsters();
@@ -183,7 +183,7 @@ namespace Game_Zodiac.Core
 
                     break;
                 case "air":
-                    AirPlayers Aplayer = new AirPlayers();
+                    AirPlayers Aplayer = new AirPlayers(nameHero);
 
                     WaterMonsters WAmonster = new WaterMonsters();
                     EarthMonsters EAmonster = new EarthMonsters();
@@ -195,7 +195,7 @@ namespace Game_Zodiac.Core
 
                     break;
                 case "earth":
-                    EarthPlayer Eplayer = new EarthPlayer();
+                    EarthPlayer Eplayer = new EarthPlayer(nameHero);
 
                     AirMonsters AEmonster = new AirMonsters();
                     WaterMonsters WEmonster = new WaterMonsters();

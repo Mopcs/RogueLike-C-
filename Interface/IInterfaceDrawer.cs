@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Game_Zodiac.Interfaces
+namespace Game_Zodiac
 {
     public interface IInterfaceDrawer
     {
