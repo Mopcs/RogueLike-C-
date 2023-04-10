@@ -1,6 +1,7 @@
 ﻿using Game_Zodiac;
 using Game_Zodiac.Monsters;
 using System;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using static System.Console;
 
@@ -172,49 +173,45 @@ namespace Game_Zodiac.Core
             {
                 case "water":
                     WaterPlayer Wplayer = new WaterPlayer(nameHero);
-                    
                     AirMonsters AWmonster = new AirMonsters();
                     EarthMonsters EWmonster = new EarthMonsters();
                     FireMonsters FWmonster = new FireMonsters();
 
                     MethodsForMonsters.AddMonster_rand(AWmonster, EWmonster, FWmonster, MethodsForMonsters.MonsterArray(AWmonster, EWmonster, FWmonster));
                     Zodiak.Game(Wplayer, AWmonster, EWmonster, FWmonster);
-                    MethodsForMonsters.MonsterMovement(MethodsForMonsters.MonsterArray(AWmonster, EWmonster, FWmonster), Wplayer);
+                    //Monster.MonsterMovement(MethodsForMonsters.MonsterArray(AWmonster, EWmonster, FWmonster), Wplayer);
 
                     break;
                 case "air":
                     AirPlayers Aplayer = new AirPlayers(nameHero);
-
                     WaterMonsters WAmonster = new WaterMonsters();
                     EarthMonsters EAmonster = new EarthMonsters();
                     FireMonsters FAmonster = new FireMonsters();
 
                     MethodsForMonsters.AddMonster_rand(WAmonster, EAmonster, FAmonster, MethodsForMonsters.MonsterArray(WAmonster, EAmonster, FAmonster));
-                    MethodsForMonsters.MonsterMovement(MethodsForMonsters.MonsterArray(WAmonster, EAmonster, FAmonster), Aplayer);
+                    //Monster.MonsterMovement(MethodsForMonsters.MonsterArray(WAmonster, EAmonster, FAmonster), Aplayer);
                     Zodiak.Game(Aplayer, EAmonster, FAmonster, WAmonster);
 
                     break;
                 case "earth":
                     EarthPlayer Eplayer = new EarthPlayer(nameHero);
-
                     AirMonsters AEmonster = new AirMonsters();
                     WaterMonsters WEmonster = new WaterMonsters();
                     FireMonsters FEmonster = new FireMonsters();
 
                     MethodsForMonsters.AddMonster_rand(AEmonster, WEmonster, FEmonster, MethodsForMonsters.MonsterArray(AEmonster, WEmonster, FEmonster));
-                    MethodsForMonsters.MonsterMovement(MethodsForMonsters.MonsterArray(AEmonster, WEmonster, FEmonster), Eplayer);
+                    //Monster.MonsterMovement(MethodsForMonsters.MonsterArray(AEmonster, WEmonster, FEmonster), Eplayer);
                     Zodiak.Game(Eplayer, WEmonster, FEmonster, AEmonster);
 
                     break;
                 case "fire":
                     FirePlayer Fplayer = new FirePlayer(nameHero);
-
                     AirMonsters AFmonster = new AirMonsters();
                     EarthMonsters EFmonster = new EarthMonsters();
                     WaterMonsters WFmonster = new WaterMonsters();
 
                     MethodsForMonsters.AddMonster_rand(AFmonster, EFmonster, WFmonster, MethodsForMonsters.MonsterArray(AFmonster, EFmonster, WFmonster));
-                    MethodsForMonsters.MonsterMovement(MethodsForMonsters.MonsterArray(AFmonster, EFmonster, WFmonster), Fplayer);
+                    //Monster.MonsterMovement(MethodsForMonsters.MonsterArray(AFmonster, EFmonster, WFmonster), Fplayer);
                     Zodiak.Game(Fplayer, EFmonster, WFmonster, AFmonster);
 
                     break;

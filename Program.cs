@@ -11,7 +11,7 @@ namespace Game_Zodiac.Core
     {
         static void Main(string[] args)
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            /*Console.OutputEncoding = System.Text.Encoding.UTF8;
             Console.InputEncoding = System.Text.Encoding.UTF8;
 
             string nameHero = Console.ReadLine();
@@ -32,9 +32,9 @@ namespace Game_Zodiac.Core
 
 
             battleLoop.StartBattleLoop(airPlayers, waterMonsters);
-            Console.ReadKey();
+            Console.ReadKey();*/
 
-            //Game.Start();
+            Game.Start();
         }
     }
 }

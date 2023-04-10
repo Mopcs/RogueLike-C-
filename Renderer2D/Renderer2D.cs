@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Game_Zodiac._Battle;
-using Game_Zodiac._Vector2;
+﻿using Game_Zodiac._Battle;
 using Game_Zodiac._Pattern;
+using Game_Zodiac._Vector2;
 using Newtonsoft.Json;
+using System;
+using System.IO;
 
 namespace Game_Zodiac._Renderer2D
 {

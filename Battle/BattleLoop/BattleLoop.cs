@@ -3,6 +3,8 @@ using Game_Zodiac.Core;
 using Game_Zodiac._Vector2;
 using System;
 using System.Threading;
+using Game_Zodiac._Weapon;
+using Game_Zodiac._HealingItem;
 
 namespace Game_Zodiac._Battle
 {
@@ -13,13 +15,22 @@ namespace Game_Zodiac._Battle
 
         public void StartBattleLoop(Character player, Monster enemy)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.InputEncoding = System.Text.Encoding.UTF8;
             Rectangle outlineBorderRectangle = new Rectangle(Vector2.Zero, new Vector2(120, 26), color: ConsoleColor.Yellow);
             Rectangle inlineBorderRectangle = new Rectangle(new Vector2(1, 1), new Vector2(118, 24), ' ');
             HealthBar healthBarPlayer = new HealthBar(new Vector2(12, 5), new Vector2(21, 1), 150, 150);
             HealthBar healthBarEnemy = new HealthBar(new Vector2(80, 5), new Vector2(20, 1), 200, 200);
             Text playerName = new Text($"Player: {player.Name}", new Vector2(12, 4));
             Text enemyName = new Text($"Enemy: {enemy.Name}", new Vector2(80, 4));
-            
+            Weapon sword = new Weapon("Sword", 1, "A sharp sword.", "sword_icon.png", 20);
+            HealingItem potion = new HealingItem("Potion", 7, "A healing potion.", "potion_icon.png", 30);
+
+            player.inventory.AddItem(sword);
+            player.inventory.AddItem(potion);
+
+            player.TakeWeapon(sword);
+            player.TakePotion(potion);
 
 
             while ((player.Health | enemy.Health) > 0)
@@ -63,14 +74,12 @@ namespace Game_Zodiac._Battle
                     renderer2D.UpdateBuffer();
                     return;
                 }
-               /* else
+                else
                 {
                     enemy.Hit(player);
                     renderer2D.DrawText(new Text("Enemy attacked player", new Vector2(80, 26)));
-                }*/
+                }
             }
-
-            
         }
 
     }

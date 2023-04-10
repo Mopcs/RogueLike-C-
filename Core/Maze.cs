@@ -6,7 +6,7 @@ namespace Game_Zodiac.Core
 {
     public class Maze
     {
-        public static Character character1 = new Character(1, 1, 7);
+        public static Character character1 = new Character(1, 1,(int) Math.PI / 4);
         
         public const int GameWidth = 150; //ширина
         public const int GameHeight = 49; //высота
