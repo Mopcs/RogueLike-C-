@@ -6,7 +6,7 @@ namespace Game_Zodiac.Core
 {
     public class Maze
     {
-        public static Character character1 = new Character(1, 1,(int) Math.PI / 4);
+        //public static Character character1;
         
         public const int GameWidth = 150; //ширина
         public const int GameHeight = 49; //высота
@@ -38,9 +38,9 @@ namespace Game_Zodiac.Core
         }
 
         //состояние
-        public static void Stats()
+        public static void Stats(Character player)
         {
-            char[] stats = $"X: {character1.X}, Y: {character1.Y}, FPS: {(int)(1 / Maze.ElapsedTime)}".ToCharArray();
+            char[] stats = $"X: {player.X}, Y: {player.Y}, FPS: {(int)(1 / Maze.ElapsedTime)}".ToCharArray();
             stats.CopyTo(Maze.Screen, 0);
         }
 
@@ -56,7 +56,7 @@ namespace Game_Zodiac.Core
             }
 
             //игрок на 2D карте
-            Maze.Screen[(int)(character1.Y + 1) * Maze.GameWidth + (int)(character1.X)] = player.Symbol;
+            Maze.Screen[(int)(player.Y + 1) * Maze.GameWidth + (int)(player.X)] = player.Symbol;
         }
 
     }

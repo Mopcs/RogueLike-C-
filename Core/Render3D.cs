@@ -11,7 +11,7 @@ namespace Game_Zodiac.Core
         {
             for (int x = 0; x < Maze.GameWidth; x++)
             {
-                double RayCorner = character1.C + Maze.Fov / 2 - x * Maze.Fov / Maze.GameWidth; //луч род углом наклона
+                double RayCorner = player.C + Maze.Fov / 2 - x * Maze.Fov / Maze.GameWidth; //луч род углом наклона
 
                 double RayX = Math.Sin(RayCorner); //с помощью угла узнаем координаты по x
                 double RayY = Math.Cos(RayCorner); //с помощью угла узнаем координаты по y
@@ -25,10 +25,10 @@ namespace Game_Zodiac.Core
                 {
                     DistanceWall += 0.1;
 
-                    int TestX = (int)(character1.X + RayX * DistanceWall); //узнаем координаты по x
-                    int TestY = (int)(character1.Y + RayY * DistanceWall); //узнаем координаты по y
+                    int TestX = (int)(player.X + RayX * DistanceWall); //узнаем координаты по x
+                    int TestY = (int)(player.Y + RayY * DistanceWall); //узнаем координаты по y
 
-                    if (TestX < 0 || TestX >= Maze.Depth + character1.X || TestY < 0 || TestY >= Maze.Depth + character1.Y) //проверка на стену
+                    if (TestX < 0 || TestX >= Maze.Depth + player.X || TestY < 0 || TestY >= Maze.Depth + player.Y) //проверка на стену
                     {
                         HitWall = true;
                         DistanceWall = Maze.Depth;
@@ -47,8 +47,8 @@ namespace Game_Zodiac.Core
                             {
                                 for (int ty = 0; ty < 2; ty++)
                                 {
-                                    double vx = TestX + tx - character1.X;
-                                    double vy = TestY + ty - character1.Y;
+                                    double vx = TestX + tx - player.X;
+                                    double vy = TestY + ty - player.Y;
 
                                     double VectorModule = Math.Sqrt(vx * vx + vy * vy); //находим модуль вектора для грани
                                     double CosCorner = (RayX * vx + RayY * vy) / VectorModule;

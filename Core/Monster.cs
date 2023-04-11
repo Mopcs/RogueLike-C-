@@ -39,7 +39,7 @@ namespace Game_Zodiac.Core
                 if (DisY < 5 && DisX < 5)
                 {
                     monster[i].Awake = true;
-                    BattleLoop battleLoop = new BattleLoop();
+                    
 
                 }
 

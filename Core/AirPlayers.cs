@@ -20,7 +20,7 @@ namespace Game_Zodiac.Core
             Gold = 0;
             X = 1;
             Y = 1;
-            C = 7;
+            C = (int)Math.PI / 4;
         }
     }
 }
