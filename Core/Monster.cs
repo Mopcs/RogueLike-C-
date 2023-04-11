@@ -1,8 +1,7 @@
-﻿using Game_Zodiac._Battle;
-using System;
+﻿using System;
 namespace Game_Zodiac.Core
 {
-	public class Monster : Character
+    public class Monster : Character
     {
         private int _attack;
 

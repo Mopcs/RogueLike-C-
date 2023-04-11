@@ -8,8 +8,8 @@ namespace Game_Zodiac.Core
     {
         //public static Character character1;
         
-        public const int GameWidth = 150; //ширина
-        public const int GameHeight = 49; //высота
+        public const int GameWidth = 120; //ширина
+        public const int GameHeight = 35; //высота
 
         public const int LabWidth = 20; //ширина карты лабиринта
         public const int LabHeight = 20; //высота карты лабиринта
@@ -40,7 +40,7 @@ namespace Game_Zodiac.Core
         //состояние
         public static void Stats(Character player)
         {
-            char[] stats = $"X: {player.X}, Y: {player.Y}, FPS: {(int)(1 / Maze.ElapsedTime)}".ToCharArray();
+            char[] stats = $"X: {player.X}, Y: {player.Y}, GoldLevel: {player.GoldLevel}, Gold: {player.Gold}".ToCharArray();
             stats.CopyTo(Maze.Screen, 0);
         }
 

@@ -19,10 +19,10 @@ namespace Game_Zodiac
                 Console.WriteLine("Added " + item.name + " to inventory.");
             }
 
-            else
+            /*else
             {
                 Console.WriteLine("Inventory is full!");
-            }
+            }*/
         }
 
         public void RemoveItem(Item item)

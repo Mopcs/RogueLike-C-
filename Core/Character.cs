@@ -12,6 +12,9 @@ namespace Game_Zodiac.Core
         public double Y { get; set; }
         public double C { get; set; }
         public bool Awake { get; set; }
+
+        public string JsonPath { get; set; }
+        public int GoldLevel { get; set; }
         public Weapon CurrentWeapon { get; set; }
         public HealingItem CurrentPotion { get; set; }
 

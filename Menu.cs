@@ -21,7 +21,7 @@ namespace Game_Zodiac.Core
         {
             SetCursorPosition(52, 23);
             WriteLine(Tip);
-            SetCursorPosition(0, 36);
+            SetCursorPosition(0, 34);
             for (int i = 0; i < Options.Length; i++)
             {
                 string currentOption = Options[i]; //выбранная опция

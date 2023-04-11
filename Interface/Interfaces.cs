@@ -11,6 +11,7 @@ namespace Game_Zodiac
         int Armor { get; set; }
         int Key { get; set; }
         int Gold { get; set; }
+        int GoldLevel { get; set; }
         bool Awake { get; set; }
     }
 }

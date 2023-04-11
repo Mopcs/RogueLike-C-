@@ -15,7 +15,8 @@ namespace Game_Zodiac.Core
             Gold = 0;
             X = 1;
             Y = 1;
-            C = (int) Math.PI / 4;
+            C = 7;
+            JsonPath = "Fire.Json";
         }
     }
 }

@@ -13,6 +13,7 @@ namespace Game_Zodiac._Battle
                 case '1':
                     //Console.WriteLine("Player attacked enemy");
                     player.HitWithWeapon(enemy);
+                    player.ApplyDamage(enemy.Attack);
                     break;
                 case '2':
                     //Console.WriteLine("Player used a potion");

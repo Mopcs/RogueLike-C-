@@ -23,8 +23,8 @@ namespace Game_Zodiac._Battle
             HealthBar healthBarEnemy = new HealthBar(new Vector2(80, 5), new Vector2(20, 1), 200, 200);
             Text playerName = new Text($"Player: {player.Name}", new Vector2(12, 4));
             Text enemyName = new Text($"Enemy: {enemy.Name}", new Vector2(80, 4));
-            Weapon sword = new Weapon("Sword", 1, "A sharp sword.", "sword_icon.png", 20);
-            HealingItem potion = new HealingItem("Potion", 7, "A healing potion.", "potion_icon.png", 30);
+            Weapon sword = new Weapon("Sword", 1, "A sharp sword.", "sword_icon.png", 30);
+            HealingItem potion = new HealingItem("Potion", 7, "A healing potion.", "potion_icon.png", 40);
 
             player.inventory.AddItem(sword);
             player.inventory.AddItem(potion);
@@ -33,7 +33,7 @@ namespace Game_Zodiac._Battle
             player.TakePotion(potion);
 
 
-            while ((player.Health | enemy.Health) > 0)
+            while ((player.Health > 0 & enemy.Health != 0) | player.Health <= 0)
             {
                 healthBarPlayer.currentHealth = player.Health;
                 healthBarEnemy.currentHealth = enemy.Health;
@@ -58,27 +58,37 @@ namespace Game_Zodiac._Battle
 
                 battle.BattleAction(player, enemy);
 
+                if (player.Health <= 0)
+                {
+                    renderer2D.SetActive();
+                    renderer2D.DrawText(new Text($"{enemy.Name} won the battle!", new Vector2(50, 5), ConsoleColor.Red));
+                    renderer2D.DrawText(new Text("You lose!", new Vector2(55, 7), ConsoleColor.Red));
+                    renderer2D.UpdateBuffer();
+                    Thread.Sleep(1000);
+                    Game.ExitGame();
+                }
 
                 if (enemy.Health <= 0)
                 {
                     renderer2D.SetActive();
                     renderer2D.DrawText(new Text($"You won the battle!", new Vector2(50, 5), ConsoleColor.Green));
                     renderer2D.UpdateBuffer();
-                    return;
+                    player.GoldLevel += 400;
+                    Thread.Sleep(1000);
+                    /*Maze.Draw2D(player); //отрисовка карты
+                    Maze.Stats(player); //состояние
+
+
+
+                    Console.SetCursorPosition(0, 0);
+                    Console.Write(Maze.Screen);*/
+
                 }
-                else if (player.Health <= 0)
+                /*else
                 {
-                    renderer2D.SetActive();
-                    renderer2D.DrawText(new Text($"{enemy.Name} won the battle!", new Vector2(50, 5), ConsoleColor.Red));
-                    renderer2D.DrawText(new Text("You lose!", new Vector2(55, 7), ConsoleColor.Red));
-                    renderer2D.UpdateBuffer();
-                    return;
-                }
-                else
-                {
-                    enemy.Hit(player);
+                    player.ApplyDamage(enemy.Attack);
                     renderer2D.DrawText(new Text("Enemy attacked player", new Vector2(80, 26)));
-                }
+                }*/
             }
         }
 

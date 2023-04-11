@@ -1,8 +1,5 @@
-﻿using Game_Zodiac;
-using Game_Zodiac.Monsters;
+﻿using Game_Zodiac.Monsters;
 using System;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
 using static System.Console;
 
 namespace Game_Zodiac.Core
@@ -58,20 +55,21 @@ namespace Game_Zodiac.Core
         public static void ExitGame()
         {
             Console.Clear();
-            Console.SetCursorPosition(60, 30);
+            Console.SetCursorPosition(30, 20);
             WriteLine("\nНажмите любую клавишу для выхода");
             ReadKey(true); //нажатие любой клавиши
-            Environment.Exit(0);
+            RunMenu();
+
 
         }
 
         public static void DisplayAboutInfo()
         {
             Console.Clear();
-            Console.SetCursorPosition(47, 25);
+            Console.SetCursorPosition(20, 15);
             WriteLine("Здесь следует прописать информацию о создателях игры и т.п...\n");
 
-            Console.SetCursorPosition(47, 28);
+            Console.SetCursorPosition(20, 18);
             WriteLine("Нажмите любую клавишу чтобы вернуться в меню");
             ReadKey(true);
             RunMenu();
@@ -80,26 +78,26 @@ namespace Game_Zodiac.Core
         public static void RunFirstChoice()
         {
             Console.Clear();
-            SetCursorPosition(68, 20);
+            SetCursorPosition(20, 15);
             WriteLine("Введи своё имя");
-            SetCursorPosition(70, 23);
+            SetCursorPosition(20, 15);
             string nameHero = Console.ReadLine();
             Console.Clear();
 
-            string tip = "           Выбери свой знак зодиака\n";
+            string tip = "    Выбери свой знак зодиака\n";
             string[] options = { 
-                "                                                                     Овен", 
-                "                                                                     Телец", 
-                "                                                                     Близнецы", 
-                "                                                                     Рак", 
-                "                                                                     Лев", 
-                "                                                                     Дева", 
-                "                                                                     Весы", 
-                "                                                                     Скорпион", 
-                "                                                                     Стрелец", 
-                "                                                                     Козерог", 
-                "                                                                     Водолей", 
-                "                                                                     Рыбы" };
+                "                                                         Овен", 
+                "                                                         Телец", 
+                "                                                         Близнецы", 
+                "                                                         Рак", 
+                "                                                         Лев", 
+                "                                                         Дева", 
+                "                                                         Весы", 
+                "                                                         Скорпион", 
+                "                                                         Стрелец", 
+                "                                                         Козерог", 
+                "                                                         Водолей", 
+                "                                                         Рыбы" };
 
             Menu ZodiacMenu = new Menu(tip, options);
             int selectedIndex = ZodiacMenu.Run();
@@ -107,7 +105,7 @@ namespace Game_Zodiac.Core
             Console.Clear();
             
            
-            Console.SetCursorPosition(55, 30);
+            Console.SetCursorPosition(20, 15);
 
             string player_class = "";
             switch (selectedIndex)
@@ -164,7 +162,7 @@ namespace Game_Zodiac.Core
 
             System.Threading.Thread.Sleep(600);
             Console.Clear();
-            Console.SetCursorPosition(55, 30);
+            Console.SetCursorPosition(20, 15);
             WriteLine("Сейчас начнется игра, удачи тебе!");
             //Give the Console a chance to Render
             System.Threading.Thread.Sleep(1000);
